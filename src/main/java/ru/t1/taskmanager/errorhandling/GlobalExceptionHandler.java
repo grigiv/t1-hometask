@@ -5,7 +5,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +14,11 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TaskNotFoundException.class)
-    public Map<String, Object> handleTaskNotFound(TaskNotFoundException ex) {
-        return Map.of(
-                "timestamp", LocalDateTime.now(),
-                "error", "Задача не найдена",
-                "message", ex.getMessage()
+    public ApiError handleTaskNotFound(TaskNotFoundException ex) {
+        return new ApiError(
+                "Задача не найдена",
+                ex.getMessage(),
+                LocalDateTime.now()
         );
     }
 
@@ -40,11 +39,11 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public Map<String, Object> handleGeneralError(Exception ex) {
-        return Map.of(
-                "timestamp", LocalDateTime.now(),
-                "error", "Внутренняя ошибка сервера",
-                "message", ex.getMessage()
+    public ApiError handleGeneralError(Exception ex) {
+        return new ApiError(
+                "Внутренняя ошибка сервера",
+                ex.getMessage(),
+                LocalDateTime.now()
         );
     }
 }

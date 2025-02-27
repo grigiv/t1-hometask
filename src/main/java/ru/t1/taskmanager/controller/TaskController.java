@@ -2,8 +2,7 @@ package ru.t1.taskmanager.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import ru.t1.taskmanager.errorhandling.TaskNotFoundException;
-import ru.t1.taskmanager.model.Task;
+import ru.t1.taskmanager.dto.TaskDTO;
 import ru.t1.taskmanager.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,24 +18,24 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getAllTasks() {
+    public List<TaskDTO> getAllTasks() {
         return taskService.getAllTasks();
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) {
-        return taskService.getTaskById(id).orElseThrow(() -> new TaskNotFoundException(id));
+    public TaskDTO getTaskById(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Task createTask(@Valid @RequestBody Task task) {
-        return taskService.createTask(task);
+    public TaskDTO createTask(@Valid @RequestBody TaskDTO taskDTO) {
+        return taskService.createTask(taskDTO);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @Valid @RequestBody Task updatedTask) {
-        return taskService.updateTask(id, updatedTask).orElseThrow(() -> new TaskNotFoundException(id));
+    public TaskDTO updateTask(@PathVariable Long id, @RequestBody TaskDTO updatedTaskDTO) {
+        return taskService.updateTask(id, updatedTaskDTO);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

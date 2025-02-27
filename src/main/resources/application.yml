@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: t1-taskmanager-project
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/taskmanagerdb
+    username: postgres
+    password: postgres
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update

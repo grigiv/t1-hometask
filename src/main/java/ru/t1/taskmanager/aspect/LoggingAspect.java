@@ -12,18 +12,18 @@ public class LoggingAspect {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     @Before("@annotation(ru.t1.taskmanager.aspect.annotation.LogBefore)")
-    public void logBeforeGetAllTasks() {
-        logger.info("Перед вызовом метода getAllTasks()");
+    public void logBefore() {
+        logger.info("Перед вызовом метода");
     }
 
     @AfterReturning("@annotation(ru.t1.taskmanager.aspect.annotation.LogAfterReturning)")
-    public void logAfterReturningGetTaskById() {
-        logger.info("Метод getTaskById() выполнен успешно");
+    public void logAfterReturning() {
+        logger.info("Метод выполнен успешно");
     }
 
     @AfterThrowing(value = "@annotation(ru.t1.taskmanager.aspect.annotation.LogAfterThrowing)", throwing = "exception")
-    public void logAfterThrowingCreateTask(Exception exception) {
-        logger.error("Ошибка при выполнении createTask(): {}", exception.getMessage());
+    public void logAfterThrowing(Exception exception) {
+        logger.error("Ошибка при выполнении метода: {}", exception.getMessage());
     }
 
     @Around("@annotation(ru.t1.taskmanager.aspect.annotation.LogExecutionTime)")
