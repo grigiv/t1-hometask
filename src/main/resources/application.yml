@@ -10,4 +10,36 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+
+  kafka:
+    template:
+      default-topic: t1_task_status_updated
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: t1-task-updated
+      max-poll-records: 10
+    producer:
+      enable: true
+    topic:
+      t1_task_status_updated: t1_task_status_updated
+    listener:
+      poll-timeout: 1000
+
+  mail:
+    host: ***
+    port: 25
+    username: ***
+    password: ***
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+    default-encoding: UTF-8
