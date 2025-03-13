@@ -27,10 +27,10 @@ spring:
       poll-timeout: 1000
 
   mail:
-    host: ***
+    host: smtp.masterhost.ru
     port: 25
-    username: ***
-    password: ***
+    username: info@test.ru
+    password: test
     properties:
       mail:
         smtp:
@@ -43,3 +43,7 @@ spring:
           timeout: 3000
           writetimeout: 5000
     default-encoding: UTF-8
+
+logger:
+  enabled: true
+  level: WARN
