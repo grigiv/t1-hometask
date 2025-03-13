@@ -1,9 +1,9 @@
 package ru.t1.taskmanager.service;
 
-import ru.t1.taskmanager.aspect.annotation.LogAfterReturning;
-import ru.t1.taskmanager.aspect.annotation.LogAfterThrowing;
-import ru.t1.taskmanager.aspect.annotation.LogBefore;
-import ru.t1.taskmanager.aspect.annotation.LogExecutionTime;
+import ru.t1.grigiv.starter.aspect.annotation.LogAfterReturning;
+import ru.t1.grigiv.starter.aspect.annotation.LogAfterThrowing;
+import ru.t1.grigiv.starter.aspect.annotation.LogBefore;
+import ru.t1.grigiv.starter.aspect.annotation.LogExecutionTime;
 import ru.t1.taskmanager.dto.TaskDTO;
 import ru.t1.taskmanager.errorhandling.TaskNotFoundException;
 import ru.t1.taskmanager.event.TaskProducer;

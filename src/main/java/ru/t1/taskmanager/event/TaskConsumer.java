@@ -10,7 +10,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import ru.t1.taskmanager.dto.TaskDTO;
-import ru.t1.taskmanager.service.TaskService;
 import ru.t1.taskmanager.service.NotificationService;
 
 import java.util.List;
@@ -34,7 +33,7 @@ public class TaskConsumer {
             Context context = new Context();
             context.setVariable("newStatus", taskDTO.getStatus());
             notificationService.send(
-                    "***",
+                    "grigorieviv87@yandex.ru",
                     "Статус задачи изменился",
                     "EmailConfirmation.html", context);
             });

@@ -20,9 +20,13 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
+
+    //logging-spring-boot-starter
+    implementation("ru.t1.grigiv.starter:t1-logger-starter:0.0.1-SNAPSHOT")
 
     //Web
     implementation("org.springframework.boot:spring-boot-starter-web")
