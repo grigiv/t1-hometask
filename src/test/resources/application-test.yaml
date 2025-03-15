@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: t1-taskmanager-project
+
+  datasource:
+    url: jdbc:tc:postgresql:17.4:///taskmanagerdb
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    enabled: true
