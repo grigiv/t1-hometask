@@ -23,6 +23,9 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -117,7 +120,7 @@ public class TaskControllerIntegrationTest {
     }
 
     @Test
-    void TaskController_updateTask_ShouldUpdateTask() throws Exception {
+    void TaskController_updateTask_ShouldUpdateTaskAndSendEvent_WhenStatusChanges() throws Exception {
         // Arrange
         TaskDTO taskDTO = new TaskDTO(null, "Test Task1", "Description", 101L, TaskStatus.NEW);
         MvcResult createResult = mockMvc.perform(post("/tasks")
@@ -138,6 +141,32 @@ public class TaskControllerIntegrationTest {
                         .content(objectMapper.writeValueAsString(updatedTaskDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Updated Task1"));
+        verify(kafkaTemplate, times(1)).send(any(), any());
+    }
+
+    @Test
+    void TaskController_updateTask_ShouldNotSendEvent_WhenStatusUnchanged() throws Exception {
+        // Arrange
+        TaskDTO taskDTO = new TaskDTO(null, "Test Task1", "Description", 101L, TaskStatus.NEW);
+        MvcResult createResult = mockMvc.perform(post("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        TaskDTO createdTask = objectMapper.readValue(
+                createResult.getResponse().getContentAsString(),
+                TaskDTO.class
+        );
+
+        // Act & Assert
+        TaskDTO updatedTaskDTO = new TaskDTO(null, "Updated Task1", "Updated Description1", 101L, TaskStatus.NEW);
+        mockMvc.perform(put("/tasks/" + createdTask.getTaskId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedTaskDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Updated Task1"));
+        verify(kafkaTemplate, times(0)).send(any(), any());
     }
 
     @Test
